@@ -27,6 +27,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'eol-last': 0, // 文件末尾空行
     'space-before-function-paren': 0,
-    "indent": [0, 2]
+    "indent": [0, 2],
+    "no-trailing-space": "off"
   }
 }
