@@ -28,6 +28,8 @@ module.exports = {
     'eol-last': 0, // 文件末尾空行
     'space-before-function-paren': 0,
     "indent": [0, 2],
-    "no-trailing-space": "off"
+    "no-trailing-space": "off",
+    "semi": [0, "always"],
+    "quotes": [0, "single"]
   }
 }
