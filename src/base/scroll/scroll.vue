@@ -65,7 +65,7 @@
       }
     },
     watch: {
-      data() {
+      data() { // 监听data
         setTimeout(() => {
           this.refresh()
         }, 20)

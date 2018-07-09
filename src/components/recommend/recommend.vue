@@ -6,6 +6,7 @@
           <slider>
             <div v-for="item in recommends">
               <a :href="item.linkUrl">
+                <!-- class="needsclick" 需要点击 -->
                 <img class="needsclick" @load="loadImage" :src="item.picUrl">
               </a>
             </div>
@@ -49,13 +50,16 @@
       }
     },
     created() {
+      /*setTimeout(() => {
+        this._getRecommend()
+      }, 1000)*/
       this._getRecommend()
 
       this._getDiscList()
     },
     methods: {
       loadImage() {
-        if (!this.checkloaded) {
+        if (!this.checkloaded) { // 只执行一次
           this.checkloaded = true
           this.$refs.scroll.refresh()
         }
@@ -108,16 +112,19 @@
         .item
           display: flex
           box-sizing: border-box
-          align-items: center
+          align-items: center /*垂直居中*/
           padding: 0 20px 20px 20px
           .icon
+            /*flex-grow 一个数字，规定项目将相对于其他灵活的项目进行扩展的量。*/
+            /*flex-shrink 一个数字，规定项目将相对于其他灵活的项目进行收缩的量。*/
+            /*flex-basis 项目的长度。合法值："auto"、"inherit" 或一个后跟 "%"、"px"、"em" 或任何其他长度单位的数字。*/
             flex: 0 0 60px
             width: 60px
             padding-right: 20px
           .text
             display: flex
             flex-direction: column
-            justify-content: center
+            justify-content: center /*水平方向的对齐方式*/
             flex: 1
             line-height: 20px
             overflow: hidden

@@ -25,6 +25,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   // these devServer options should be customized in /config/index.js
   devServer: {
     before(app) {
+      // 后端代理
       app.use(bodyParser.urlencoded({extended: true}))
       const querystring = require('querystring')
 
@@ -32,8 +33,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
         axios.get(url, {
           headers: {
-            referer: 'https://c.y.qq.com/',
-            host: 'c.y.qq.com'
+            referer: 'https://c.y.qq.com/', // 源地址
+            host: 'c.y.qq.com' // 域名
           },
           params: req.query
         }).then((response) => {
@@ -43,6 +44,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       })
     },
+
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [

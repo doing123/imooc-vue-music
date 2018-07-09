@@ -71,6 +71,7 @@
           child.style.width = sliderWidth + 'px'
           width += sliderWidth
         }
+
         if (this.loop && !isResize) {
           width += 2 * sliderWidth
         }
@@ -81,21 +82,18 @@
           scrollX: true,
           scrollY: false,
           momentum: false,
-          snap: true,
-          snapLoop: this.loop,
-          snapThreshold: 0.3,
-          snapSpeed: 400
+          snap: {
+            loop: this.loop,
+            threshold: 0.3,
+            speed: 400
+          }
         })
 
         this.slider.on('scrollEnd', () => {
           let pageIndex = this.slider.getCurrentPage().pageX
-          if (this.loop) {
-            pageIndex -= 1
-          }
           this.currentPageIndex = pageIndex
 
           if (this.autoPlay) {
-            clearTimeout(this.timer)
             this._play()
           }
         })
@@ -104,14 +102,14 @@
         this.dots = new Array(this.children.length)
       },
       _play() {
-        let pageIndex = this.currentPageIndex + 1
-        if (this.loop) {
-          pageIndex += 1
-        }
+        clearTimeout(this.timer)
         this.timer = setTimeout(() => {
-          this.slider.goToPage(pageIndex, 0, 400)
+          this.slider.next()
         }, this.interval)
       }
+    },
+    destroyed() { // 组件销毁时清除定时器
+      clearTimeout(this.timer)
     }
   }
 </script>
