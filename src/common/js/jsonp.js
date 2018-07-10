@@ -16,9 +16,11 @@ export default function jsonp(url, data, option) {
 
 export function param(data) {
   let url = ''
+
   for (var k in data) {
     let value = data[k] !== undefined ? data[k] : ''
-    url += `&{k}=${encodeURIComponent(value)}`
+    // todo: &{k} => &${k} 少些了一个$，导致请求出错
+    url += `&${k}=${encodeURIComponent(value)}`
   }
   return url ? url.substring(1) : ''
 }
