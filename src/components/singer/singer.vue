@@ -56,6 +56,7 @@
             name: item.Fsinger_name
           }))
         })
+
         // 处理map， 得到有序列表
         let hot = []
         let ret = []
