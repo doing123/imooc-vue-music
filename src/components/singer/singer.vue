@@ -1,5 +1,6 @@
 <template>
   <div class="singer">
+    <list-view :data="singers"></list-view>
   </div>
 </template>
 
@@ -7,6 +8,7 @@
   import {getSingerList} from '@/api/singer'
   import {ERR_OK} from '@/api/config'
   import Singer from '@/common/js/singer'
+  import ListView from '@/base/listview/listview'
 
   const HOT_NAME = '热门'
   const HOT_NAME_LEN = 10
@@ -20,12 +22,15 @@
     created() {
       this._getSingerList()
     },
+    components: {
+      ListView
+    },
     methods: {
       _getSingerList() {
         getSingerList().then((res) => {
           if (res.code === ERR_OK) {
-            this.singers = res.data.list
-            console.log(this._normalizeSinger(this.singers))
+            this.singers = this._normalizeSinger(res.data.list)
+            console.log(this.singers)
           }
         })
       },
@@ -36,7 +41,6 @@
             items: []
           }
         }
-        debugger
         list.forEach((item, index) => {
           if (index < HOT_NAME_LEN) {
             map.hot.items.push(new Singer({
@@ -44,8 +48,8 @@
               name: item.Fsinger_name
             }))
           }
-          const key = item.Findex
-          if (!map[index]) {
+          const key = item.Findex + ''
+          if (!map[key]) {
             map[key] = {
               title: key,
               items: []

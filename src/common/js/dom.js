@@ -12,10 +12,12 @@ export function addClass(el, className) {
   el.className = newClass.join(' ')
 }
 
+// 歌手列表： 获取索引
 export function getData(el, name, val) {
   const prefix = 'data-'
+  name = prefix + name
   if (val) {
-    return el.setAttribute(prefix + name, val)
+    return el.setAttribute( name, val)
   }
-  return el.getAttribute(prefix + name)
+  return el.getAttribute(name)
 }
