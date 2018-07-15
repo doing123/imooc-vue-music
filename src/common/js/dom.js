@@ -15,6 +15,7 @@ export function addClass(el, className) {
 // 歌手列表： 获取索引
 export function getData(el, name, val) {
   const prefix = 'data-'
+
   name = prefix + name
   if (val) {
     return el.setAttribute( name, val)

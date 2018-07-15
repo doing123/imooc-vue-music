@@ -29,7 +29,7 @@
       </ul>
     </div>
     <div class="list-fixed" ref="fixed" v-show="fixedTitle">
-      <div class="fixed-title">{{fixedTitle}} </div>
+      <div class="fixed-title">{{fixedTitle}}</div>
     </div>
     <div v-show="!data.length" class="loading-container">
       <loading></loading>
@@ -71,7 +71,7 @@
           return group.title.substr(0, 1)
         })
       },
-      fixedTitle(){
+      fixedTitle() {
         if (this.scrollY > 0) {
           return ''
         }
@@ -148,9 +148,9 @@
         // 当滚动到底部，且-newY大于最后一个元素的上限
         this.currentIndex = listHeight.length - 2
       },
-      diff(newVal){
+      diff(newVal) {
         let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
-        if(this.fixedTop === fixedTop) {
+        if (this.fixedTop === fixedTop) {
           return
         }
         this.fixedTop = fixedTop
