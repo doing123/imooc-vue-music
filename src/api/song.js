@@ -1,37 +1,102 @@
-export default class Song {
-  constructor({id, mid, singer, name, album, duration, image, url}) {
-    this.id = id
-    this.mid = mid
-    this.singer = singer
-    this.name = name
-    this.album = album
-    this.duration = duration
-    this.image = image
-    this.url = url
-  }
-}
+import {commonParams} from './config'
+import {getUid} from '@/common/js/uid'
+import axios from 'axios'
+import {ERR_OK} from '@/api/config'
 
-export function createSong(musicData) {
-  return new Song({
-    id: musicData.songid,
-    mid: musicData.songmid,
-    singer: filterSinger(musicData.singer),
-    name: musicData.songname,
-    album: musicData.albumname,
-    duration: musicData.interval,
-    image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
-    url: musicData.url
-    // url: `http://ws.stream.qqmusic.qq.com/${musicData.songid}.m4a?fromtag=46`
+const debug = process.env.NODE_ENV !== 'production'
+
+export function getLyric(mid) {
+  const url = debug ? '/api/lyric' : 'http://ustbhuangyi.com/music/api/lyric'
+
+  const data = Object.assign({}, commonParams, {
+    songmid: mid,
+    platform: 'yqq',
+    hostUin: 0,
+    needNewCode: 0,
+    categoryId: 10000000,
+    pcachetime: +new Date(),
+    format: 'json'
+  })
+
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
   })
 }
 
-function filterSinger(singer) {
-  let ret = []
-  if (!singer) {
-    return
-  }
-  singer.forEach((s) => {
-    ret.push(s.name)
+export function getSongsUrl(songs) {
+  const url = debug ? '/api/getPurlUrl' : 'http://ustbhuangyi.com/music/api/getPurlUrl'
+
+  let mids = []
+  let types = []
+
+  songs.forEach((song) => {
+    mids.push(song.mid)
+    types.push(0)
   })
-  return ret.join('/')
+
+  const urlMid = genUrlMid(mids, types)
+
+  const data = Object.assign({}, commonParams, {
+    g_tk: 5381,
+    format: 'json',
+    platform: 'h5',
+    needNewCode: 1,
+    uin: 0
+  })
+
+  return new Promise((resolve, reject) => {
+    let tryTime = 3
+
+    function request() {
+      return axios.post(url, {
+        comm: data,
+        url_mid: urlMid
+      }).then((response) => {
+        const res = response.data
+        if (res.code === ERR_OK) {
+          let urlMid = res.url_mid
+          if (urlMid && urlMid.code === ERR_OK) {
+            const info = urlMid.data.midurlinfo[0]
+            if (info && info.purl) {
+              resolve(res)
+            } else {
+              retry()
+            }
+          } else {
+            retry()
+          }
+        } else {
+          retry()
+        }
+      })
+    }
+
+    function retry() {
+      if (--tryTime >= 0) {
+        request()
+      } else {
+        reject(new Error('Can not get the songs url'))
+      }
+    }
+
+    request()
+  })
+}
+
+function genUrlMid(mids, types) {
+  const guid = getUid()
+  return {
+    module: 'vkey.GetVkeyServer',
+    method: "CgiGetVkey",
+    param: {
+      guid,
+      songmid: mids,
+      songtype: types,
+      uin: '0',
+      loginflag: 0,
+      platform: '23'
+    }
+  }
 }
