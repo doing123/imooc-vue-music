@@ -7,12 +7,23 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  import {mapGetters} from 'vuex'
+
+  export default {
+    computed: {
+      ...mapGetters([
+        'singer'
+      ])
+    },
+    created() {
+      console.log(this.singer)
+    }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
   @import "~@/common/stylus/variable"
-  .singer-detail{
+  .singer-detail {
     position: fixed;
     z-index: 100;
     top: 0;
@@ -21,8 +32,10 @@
     right: 0;
     background: #222;
   }
+
   .slide-enter-active, .slide-leave-active
     transition: all 0.3s
+
   .slide-enter, .slide-leave-to
     transform: translate3d(100%, 0, 0)
 </style>
