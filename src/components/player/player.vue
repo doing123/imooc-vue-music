@@ -1,10 +1,19 @@
 import {playList} from "../../store/getters";
 <template>
   <div class="player" v-show="playList.length>0">
-    <div class="normal-player" v-show="fullScreen">
-      播放器
-    </div>
-    <div class="mini-player" v-show="!fullScreen"></div>
+    <transition name="normal"
+                @enter="enter"
+                @after-enter="afterEnter"
+                @leave="leave"
+                @after-leave="afterLeave"
+    >
+      <div class="normal-player" v-show="fullScreen">
+        播放器
+      </div>
+    </transition>
+    <transition name="mini">
+      <div class="mini-player" v-show="!fullScreen"></div>
+    </transition>
   </div>
 </template>
 
