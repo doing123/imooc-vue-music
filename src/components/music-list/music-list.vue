@@ -107,11 +107,13 @@
     },
     watch: {
       scrollY(newVal) {
+        //
         let translateY = Math.max(this.minTransalteY, newVal)
         let scale = 1
         let zIndex = 0
         let blur = 0
         const percent = Math.abs(newVal / this.imageHeight)
+        // 图片放大
         if (newVal > 0) {
           scale = 1 + percent
           zIndex = 10
@@ -119,8 +121,9 @@
           blur = Math.min(20, percent * 20)
         }
 
+        // 3d 转换
         this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`
-        this.$refs.filter.style[backdrop] = `blur(${blur}px)`
+        this.$refs.filter.style[backdrop] = `blur(${blur}px)` // 背景模糊
         if (newVal < this.minTransalteY) {
           zIndex = 10
           this.$refs.bgImage.style.paddingTop = 0
