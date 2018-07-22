@@ -107,6 +107,7 @@
             transform: `translate3d(0,0,0) scale(1)`
           }
         }
+        // js 调用的动画库
         animations.registerAnimation({
           name: 'move',
           animation,
