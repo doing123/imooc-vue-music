@@ -96,13 +96,13 @@
         })
       },
       random() {
-        this.randomPlay({
+        /*this.randomPlay({
           list: this.songs
-        })
+        })*/
       },
       ...mapActions([
-        'selectPlay',
-        'randomPlay'
+        'selectPlay'/*,
+        'randomPlay'*/
       ])
     },
     watch: {
