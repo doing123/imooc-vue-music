@@ -62,7 +62,7 @@
         diff: -1
       }
     },
-    props: { // todo: vue对 data和props中的数据添加get和set，用于监听和dom的双向绑定, 而created中的无
+    props: { // vue对 data和props中的数据添加get和set，用于监听和dom的双向绑定, 而created中的无
       data: {
         type: Array,
         default: []

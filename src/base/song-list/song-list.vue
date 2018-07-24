@@ -28,6 +28,7 @@
     },
     methods: {
       selectItem(item, index) {
+        // 向父组件触发事件
         this.$emit('select', item, index)
       },
       getDesc(song) {
