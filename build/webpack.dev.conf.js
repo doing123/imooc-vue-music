@@ -44,6 +44,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       })
 
+      // 获得歌手列表
       app.get('/api/getCdInfo', function (req, res) {
         const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
         axios.get(url, {
@@ -67,6 +68,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       })
 
+      // 获得歌词
       app.get('/api/lyric', function (req, res) {
         const url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
 
