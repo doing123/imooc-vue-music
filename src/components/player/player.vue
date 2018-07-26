@@ -99,6 +99,7 @@
   import ProgressCircle from '@/base/progress-circle/progress-circle'
   import {playMode} from "@/common/js/config"
   import {shuffle} from "@/common/js/util"
+  import Lyric from 'lyric-parser'
 
   const transform = prefixStyle('transform')
 
@@ -107,7 +108,8 @@
       return {
         songReady: false, // 标志位，限制audio加载完成ready时才可以点击
         currentTime: 0,
-        radius: 32
+        radius: 32,
+        currentLyric: null
       }
     },
     computed: {
@@ -157,6 +159,12 @@
           return item.id === this.currentSong.id
         })
         this.setCurrentIndex(index)
+      },
+      getLyric() {
+        this.currentSong.getLyric().then((lyric) => {
+          this.currentLyric = new Lyric(lyric)
+          // console.log(this.currentLyric)
+        })
       },
       prev() {
         if (!this.songReady) {
@@ -284,7 +292,7 @@
         this.setPlayingState(!this.playing)
       },
       end() { // 当前歌曲播放完成，切换为下一首
-        if(this.mode === playMode.loop){
+        if (this.mode === playMode.loop) {
           this.loop()
         } else {
           this.next()
@@ -310,7 +318,7 @@
         }
         this.$nextTick(() => {
           this.$refs.audio.play()
-          this.currentSong.getLyric()
+          this.getLyric()
         })
       },
       playing(newPlaying) {
