@@ -39,7 +39,7 @@
   const backdrop = prefixStyle('backdrop-filter')
 
   export default {
-    mixins: [playlistMixin],
+    mixins: [playlistMixin], // ?
     props: {
       bgImage: {
         type: String,
@@ -78,7 +78,7 @@
       this.$refs.list.$el.style.top = `${this.imageHeight}px`
     },
     methods: {
-      handlePlaylist(playlist) {
+      handlePlaylist(playlist) { // 处理mini播放器显示时，滚动列表完全显示
         const bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.list.$el.style.bottom = bottom
         this.$refs.list.refresh()

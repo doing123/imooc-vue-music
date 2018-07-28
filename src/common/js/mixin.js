@@ -11,7 +11,7 @@ export const playlistMixin = {
   mounted() {
     this.handlePlaylist(this.playList)
   },
-  activated() {
+  activated() { // keep-alive切换时触发
     this.handlePlaylist(this.playList)
   },
   watch: {
