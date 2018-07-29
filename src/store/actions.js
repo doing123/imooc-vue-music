@@ -1,6 +1,7 @@
 import * as types from './mutation-type'
 import {playMode} from "@/common/js/config"
 import {shuffle} from "@/common/js/util"
+import {saveSearch, deleteSearch, clearSearch} from "@/common/js/cache";
 
 function findIndex(list, song) {
   return list.findIndex((item) => {
@@ -11,7 +12,7 @@ function findIndex(list, song) {
 export const selectPlay = function ({commit, state}, {list, index}) {
   commit(types.SET_SEQUENCE_LIST, list)
   // 考虑随机播放
-  if(state.mode === playMode.random) {
+  if (state.mode === playMode.random) {
     let randomList = shuffle(list)
     commit(types.SET_PLAYLIST, randomList)
     // 找到这首歌在随机列表中的位置
@@ -36,7 +37,7 @@ export const randomPlay = function ({commit}, {list}) {
 }
 
 export const insertSong = function ({commit, state}, song) {
-  let playlist = state.playlist.slice() // 修改副本
+  let playlist = state.playList.slice() // 修改副本
   let sequenceList = state.sequenceList.slice()
   let currentIndex = state.currentIndex
   // 记录当前歌曲
@@ -77,4 +78,16 @@ export const insertSong = function ({commit, state}, song) {
   commit(types.SET_CURRENT_INDEX, currentIndex)
   commit(types.SET_FULL_SCREEN, true)
   commit(types.SET_PLAYING_STATE, true)
+}
+
+export const saveSearchHistory = function ({commit}, query) {
+  commit(types.SET_SEARCH_HISTORY, saveSearch(query))
+}
+
+export const deleteSearchHistory = function ({commit}, query) {
+  commit(types.SET_SEARCH_HISTORY, deleteSearch(query))
+}
+
+export const clearSearchHistory = function ({commit}) {
+  commit(types.SET_SEARCH_HISTORY, clearSearch())
 }

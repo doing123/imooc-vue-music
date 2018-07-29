@@ -37,7 +37,7 @@
         this.$emit('query', newQuery)
       }, 200))
     }/*,
-    watch() {
+    watch: {
       query: (newQuery) => {
         this.$emit('query', newQuery)
       }
