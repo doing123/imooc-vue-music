@@ -51,6 +51,7 @@
 
   export default {
     mixins: [playerMixin],
+
     data() {
       return {
         showFlag: false,
