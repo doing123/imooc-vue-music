@@ -11,6 +11,7 @@
           </h1>
         </div>
         <scroll ref="listContent" :data="sequenceList" class="list-content" :refreshDelay="refreshDelay">
+          <!--动画，tag：渲染成ul, 需要key-->
           <transition-group ref="list" name="list" tag="ul">
             <li :key="item.id" class="item" v-for="(item,index) in sequenceList"
                 @click="selectItem(item,index)">
@@ -42,7 +43,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapActions, mapGetters, mapMutations} from 'vuex'
+  import {mapActions} from 'vuex'
   import {playMode} from '@/common/js/config'
   import Scroll from '@/base/scroll/scroll'
   import Confirm from '@/base/confirm/confirm'
@@ -50,8 +51,7 @@
   import {playerMixin} from '@/common/js/mixin'
 
   export default {
-    mixins: [playerMixin],
-
+    mixins: [playerMixin], // 共用逻辑提取
     data() {
       return {
         showFlag: false,
@@ -61,14 +61,7 @@
     computed: {
       modeText() {
         return this.mode === playMode.sequence ? '顺序播放' : this.mode === playMode.random ? '随机播放' : '单曲循环'
-      },
-      ...mapGetters([
-        'sequenceList',
-        'playList',
-        'currentSong',
-        'mode',
-        'favoriteList'
-      ]),
+      }
     },
     methods: {
       show() {
@@ -132,12 +125,6 @@
           this.saveFavoriteList(song)
         }
       },
-      ...mapMutations({
-        setPlayMode: 'SET_PLAY_MODE',
-        setPlaylist: 'SET_PLAYLIST',
-        setCurrentIndex: 'SET_CURRENT_INDEX',
-        setPlayingState: 'SET_PLAYING_STATE'
-      }),
       ...mapActions([
         'deleteSong',
         'deleteSongList',

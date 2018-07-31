@@ -80,7 +80,7 @@
         this.showFlag = true
         this.refreshList()
       },
-      refreshList() {
+      refreshList() { // 重新计算，列表的滚动
         setTimeout(() => {
           if (this.currentIndex === 0) {
             this.$refs.songList.refresh()
