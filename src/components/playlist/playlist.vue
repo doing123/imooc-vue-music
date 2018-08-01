@@ -118,17 +118,9 @@
       addSong() {
         this.$refs.addSong.show()
       },
-      toggleFavorite(song) {
-        if (this.isFavorite(song)) {
-          this.deleteFavoriteList(song)
-        } else {
-          this.saveFavoriteList(song)
-        }
-      },
       ...mapActions([
         'deleteSong',
-        'deleteSongList',
-        'toggleFavorite'
+        'deleteSongList'
       ])
     },
     watch: {
