@@ -10,12 +10,12 @@ var app = express()
 
 var apiRoutes = express.Router()
 
-apiRoutes.get('/getDiscList', function (req, res) {
-  var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+apiRoutes.get('/api/getDiscList', function (req, res) {
+  const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
   axios.get(url, {
     headers: {
-      referer: 'https://c.y.qq.com/',
-      host: 'c.y.qq.com'
+      referer: 'https://c.y.qq.com/', // 源地址
+      host: 'c.y.qq.com' // 域名
     },
     params: req.query
   }).then((response) => {
