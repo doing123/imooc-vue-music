@@ -108,7 +108,7 @@
     <audio
       ref="audio"
       :src="currentSong.url"
-      @canplay="ready"
+      @play="ready"
       @error="error"
       @timeupdate="updateTime"
       @ended="end"></audio>
@@ -180,6 +180,10 @@
       },
       getLyric() {
         this.currentSong.getLyric().then((lyric) => {
+          // 解决：快速切换，歌词异步获取有延迟，生成多个歌词实例
+          if(this.currentSong.lyric !== lyric) {
+            return
+          }
           this.currentLyric = new Lyric(lyric, this.handleLyric)
           if (this.playing) {
             this.currentLyric.play()
@@ -285,6 +289,7 @@
         }
         if (this.playList.length === 1) {
           this.loop()
+          return
         } else {
           let index = this.currentIndex + 1
           if (index === this.playList.length) {
@@ -297,7 +302,7 @@
         }
         this.songReady = false
       },
-      ready() {
+      ready() { // play()后再执行 songReady
         this.songReady = true
         this.savePlayHistory(this.currentSong)
       },
@@ -442,8 +447,11 @@
           this.currentLineNum = 0
         }
 
+        // 解决快速切换之后暂停，导致的歌词不同步暂停的问题
+        clearTimeout(this.timer)
+
         // this.$nextTick(() => {
-        setTimeout(() => { // todo: 考虑微信从后台切到前台时可以正常播放
+        this.timer = setTimeout(() => { // todo: 考虑微信从后台切到前台时可以正常播放
           this.$refs.audio.play()
           this.getLyric()
         }, 1000)
