@@ -8,8 +8,9 @@ import VueLazyload from 'vue-lazyload'
 
 import '@/common/stylus/index.styl'
 
-/* eslint-disable no-unused-vars */
 import vConsole from 'vconsole'
+/* eslint-disable no-unused-vars */
+var test = new vConsole() // 除加此句外，v2.5.2可以直接使用
 
 console.log('test')
 
