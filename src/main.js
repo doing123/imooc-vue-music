@@ -8,6 +8,11 @@ import VueLazyload from 'vue-lazyload'
 
 import '@/common/stylus/index.styl'
 
+/* eslint-disable no-unused-vars */
+import vConsole from 'vconsole'
+
+console.log('test')
+
 faskclick.attach(document.body) // 去除300ms的延迟
 
 Vue.config.productionTip = false
